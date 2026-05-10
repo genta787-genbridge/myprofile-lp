@@ -76,7 +76,7 @@
         .btn-premium {
             background: linear-gradient(135deg, #b38e44 0%, #8e6d2a 100%);
             color: white;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.15em;
             transition: all 0.4s ease;
             box-shadow: 0 8px 25px -10px rgba(179, 142, 68, 0.4);
         }
@@ -146,8 +146,8 @@
                 <div class="inline-block px-4 py-1.5 border border-gold/30 text-gold text-[10px] tracking-[0.3em] font-bold mb-8 uppercase">Enterprise AI Strategy</div>
                 <h1 class="text-4xl lg:text-6xl font-bold leading-[1.3] serif text-[#0a1120] mb-8">
                     AI活用を、<br>構想で終わらせず、<br>
-                    <!-- whitespace-nowrap を追加して「る」の改行を防止 -->
-                    <span class="whitespace-nowrap"><span class="text-gold">事業と業務に定着</span>する</span><br>実務成果へ。
+                    <!-- フレーズ全体を inline-block で保護し、「る」の単独改行を防止 -->
+                    <span class="inline-block"><span class="text-gold">事業と業務に定着</span>する</span><br>実務成果へ。
                 </h1>
                 <p class="text-gray-500 text-lg leading-relaxed max-w-xl mb-12">
                     30年以上にわたるエンタープライズITの知見を基盤に、導入後の運用定着とガバナンスを重視したAI導入をご支援いたします。
@@ -184,7 +184,7 @@
         </div>
     </section>
 
-    <!-- Achievements / Years (PDF準拠) -->
+    <!-- Achievements / Years -->
     <section id="credentials" class="py-32 bg-white">
         <div class="max-w-7xl mx-auto px-8">
             <div class="text-center mb-20">
@@ -389,12 +389,11 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // ============================================================
-            // ⚠️ 修正：ここにGASの最新の「ウェブアプリURL」を貼り付けてください ⚠️
-            // ============================================================
-            const GAS_URL = 'https://script.google.com/macros/s/AKfycbwlT4oVyY7cTKxyOp5xgJmi4xXIYwabN75G3xhm0FttUvrMWJLQmn4UaTJkNuEfMw2S/exec'; 
+            // ユーザー様のURLを設定済みです
+            const GAS_URL = 'https://script.google.com/macros/s/AKfycbz75IO2egdV4sys3ujv2-y1zP9NFg_i0p8bqpopJBTJqrS-uIWlD_okw3VRlf4oZihI/exec'; 
 
-            if (GAS_URL === 'https://script.google.com/macros/s/AKfycbwlT4oVyY7cTKxyOp5xgJmi4xXIYwabN75G3xhm0FttUvrMWJLQmn4UaTJkNuEfMw2S/exec') {
+            // コードの書き換えミスをチェックするためのガード
+            if (GAS_URL.includes('https://script.google.com/macros/s/AKfycbz75IO2egdV4sys3ujv2-y1zP9NFg_i0p8bqpopJBTJqrS-uIWlD_okw3VRlf4oZihI/exec')) {
                 showStatus("エラー：GASのURLが設定されていません。コードを更新してください。", false);
                 return;
             }
@@ -416,7 +415,7 @@
                     mode: 'no-cors'
                 });
 
-                // no-cors のため成功とみなして表示
+                // no-cors モードのためレスポンス詳細は見えませんが、ここに来れば送信処理は走っています
                 showStatus("お問い合わせありがとうございます。正常に送信されました。", true);
                 submitBtn.innerText = "送信完了";
                 form.reset();
