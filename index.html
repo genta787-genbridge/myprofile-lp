@@ -96,6 +96,7 @@
             <div class="order-1 md:order-2 flex justify-center">
                 <div class="relative">
                     <div class="absolute inset-0 border-2 border-gold rounded-full translate-x-4 translate-y-4 -z-10"></div>
+                    <!-- 画像パス -->
                     <img src="Gemini_Generated_Image_kc7s6fkc7s6fkc7s.png" 
                          onerror="this.src='https://via.placeholder.com/400x500?text=Gentaro+Abe'"
                          alt="安部源太郎" 
@@ -272,7 +273,8 @@
             </div>
 
             <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-gray-100">
-                <form id="ai-contact-form" action="https://formspree.io/f/genta787@genbridge.biz" method="POST" class="space-y-6">
+                <!-- GASのURLを使用するため action は空にし、JSで制御します -->
+                <form id="ai-contact-form" class="space-y-6">
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-bold mb-2 text-gray-700">お名前 <span class="text-red-500">*</span></label>
@@ -332,7 +334,9 @@
     </footer>
 
     <script>
-        // Form Handling Simulation
+        /**
+         * お問い合わせフォームの送信処理
+         */
         const form = document.getElementById('ai-contact-form');
         const status = document.getElementById('form-status');
 
@@ -342,15 +346,37 @@
             button.disabled = true;
             button.innerText = "送信中...";
 
-            // デモとしての送信シミュレーション
-            setTimeout(() => {
-                status.classList.remove('hidden');
+            // ==========================================
+            // GASをデプロイした後に発行されるウェブアプリURLをここに貼り付けてください
+            // ==========================================
+            const GAS_URL = 'https://script.google.com/a/macros/genbridge.biz/s/AKfycbwW4M8wYaLRe_v-8qoJF_pE-gm1ZLB_YSbcM84-CuQqc5OkmDb4UmAoAVW1UTO2iQUX/exec'; 
+
+            const formData = new FormData(form);
+
+            try {
+                // fetchでGASに送信
+                // ※ mode: 'no-cors' を指定することで、CORSエラーを回避しつつデータを送信できます
+                await fetch(GAS_URL, {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'no-cors'
+                });
+
+                // no-cors の場合、レスポンス内容は読めませんが、送信自体は完了します
+                status.classList.remove('hidden', 'bg-red-100', 'text-red-700');
                 status.classList.add('bg-green-100', 'text-green-700', 'block');
                 status.innerText = "お問い合わせを受け付けました。ご記入いただいたメールアドレスへ折り返しご連絡いたします。";
                 
                 button.innerText = "送信完了";
                 form.reset();
-            }, 1500);
+            } catch (error) {
+                console.error('Submission error:', error);
+                status.classList.remove('hidden', 'bg-green-100', 'text-green-700');
+                status.classList.add('bg-red-100', 'text-red-700', 'block');
+                status.innerText = "エラーが発生しました。お手数ですが時間をおいて再度お試しいただくか、直接メールにてご連絡ください。";
+                button.disabled = false;
+                button.innerText = "再試行する";
+            }
         });
     </script>
 </body>
