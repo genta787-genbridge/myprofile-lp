@@ -122,7 +122,7 @@
 </head>
 <body class="antialiased">
 
-    <!-- Sticky Header (タイトルバー・ナビゲーション) -->
+    <!-- Sticky Header -->
     <header class="fixed w-full z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
         <div class="max-w-7xl mx-auto px-8 h-24 flex justify-between items-center">
             <div class="flex flex-col">
@@ -146,7 +146,7 @@
                 <div class="inline-block px-4 py-1.5 border border-gold/30 text-gold text-[10px] tracking-[0.3em] font-bold mb-8 uppercase">Enterprise AI Strategy</div>
                 <h1 class="text-4xl lg:text-6xl font-bold leading-[1.3] serif text-[#0a1120] mb-8">
                     AI活用を、<br>構想で終わらせず、<br>
-                    <!-- フレーズ全体を inline-block で保護し、「る」の単独改行を防止 -->
+                    <!-- 「る」が単独で改行されないよう inline-block で包みます -->
                     <span class="inline-block"><span class="text-gold">事業と業務に定着</span>する</span><br>実務成果へ。
                 </h1>
                 <p class="text-gray-500 text-lg leading-relaxed max-w-xl mb-12">
@@ -184,7 +184,7 @@
         </div>
     </section>
 
-    <!-- Achievements / Years -->
+    <!-- Achievements -->
     <section id="credentials" class="py-32 bg-white">
         <div class="max-w-7xl mx-auto px-8">
             <div class="text-center mb-20">
@@ -268,9 +268,8 @@
                 </div>
                 <div class="luxury-card p-10 rounded-xl">
                     <h4 class="font-bold text-xl mb-6 flex items-center gap-3 text-navy">
-                        <span class="w-2 h-2 bg-gold rounded-full"></span> ガバナンス・統制
+                        <span class="text-sm leading-relaxed">情報管理、説明責任など、導入後にリスクを最小化する運用の仕組みを整理します。</span>
                     </h4>
-                    <p class="text-sm text-gray-500 leading-loose">情報管理、説明責任など、導入後にリスクを最小化する運用の仕組みを整理します。</p>
                 </div>
                 <div class="luxury-card p-10 rounded-xl">
                     <h4 class="font-bold text-xl mb-6 flex items-center gap-3 text-navy">
@@ -389,12 +388,11 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // ユーザー様のURLを設定済みです
-            const GAS_URL = 'https://script.google.com/macros/s/AKfycbwlT4oVyY7cTKxyOp5xgJmi4xXIYwabN75G3xhm0FttUvrMWJLQmn4UaTJkNuEfMw2S/exec'; 
+            const GAS_URL = 'https://script.google.com/macros/s/AKfycbz75IO2egdV4sys3ujv2-y1zP9NFg_i0p8bqpopJBTJqrS-uIWlD_okw3VRlf4oZihI/exec'; 
 
-            // コードの書き換えミスをチェックするためのガード
-            if (GAS_URL.includes('YOUR_GAS_DEPLOY_URL_HERE')) {
-                showStatus("エラー：GASのURLが設定されていません。コードを更新してください。", false);
+            // 設定漏れをチェックするロジック（プレースホルダーのままか、空文字かを確認）
+            if (GAS_URL === '' || GAS_URL.includes('YOUR_GAS_DEPLOY_URL_HERE')) {
+                showStatus("エラー：GASのURLが設定されていません。コード内の GAS_URL を更新してください。", false);
                 return;
             }
 
@@ -415,7 +413,6 @@
                     mode: 'no-cors'
                 });
 
-                // no-cors モードのためレスポンス詳細は見えませんが、ここに来れば送信処理は走っています
                 showStatus("お問い合わせありがとうございます。正常に送信されました。", true);
                 submitBtn.innerText = "送信完了";
                 form.reset();
