@@ -390,10 +390,10 @@
             e.preventDefault();
             
             // ユーザー様のURLを設定済みです
-            const GAS_URL = 'https://script.google.com/macros/s/AKfycbz75IO2egdV4sys3ujv2-y1zP9NFg_i0p8bqpopJBTJqrS-uIWlD_okw3VRlf4oZihI/exec'; 
+            const GAS_URL = 'https://script.google.com/macros/s/AKfycbwlT4oVyY7cTKxyOp5xgJmi4xXIYwabN75G3xhm0FttUvrMWJLQmn4UaTJkNuEfMw2S/exec'; 
 
             // コードの書き換えミスをチェックするためのガード
-            if (GAS_URL.includes('https://script.google.com/macros/s/AKfycbz75IO2egdV4sys3ujv2-y1zP9NFg_i0p8bqpopJBTJqrS-uIWlD_okw3VRlf4oZihI/exec')) {
+            if (GAS_URL.includes('YOUR_GAS_DEPLOY_URL_HERE')) {
                 showStatus("エラー：GASのURLが設定されていません。コードを更新してください。", false);
                 return;
             }
