@@ -3,278 +3,447 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genbridge AI Consulting | 安部源太郎</title>
+    <title>Genbridge AI Consulting | 安部源太郎 - AI導入・定着伴走支援</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --midnight: #0a1120;
+            --gold: #b38e44;
+            --gold-soft: #d4af37;
+            --bg-neutral: #fdfdfd;
+        }
         body {
             font-family: 'Noto Sans JP', sans-serif;
-            background-color: #f8f9fa;
-            color: #1a202c;
+            background-color: var(--bg-neutral);
+            color: #1e293b;
             scroll-behavior: smooth;
         }
-        .serif {
-            font-family: 'Playfair Display', serif;
+        .serif { font-family: 'Noto Serif JP', serif; }
+        .eng-serif { font-family: 'Playfair Display', serif; }
+        
+        .bg-midnight { background-color: var(--midnight); }
+        .text-gold { color: var(--gold); }
+        
+        /* セクション見出し装飾 */
+        .section-title {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 2rem;
+            margin-bottom: 3rem;
+            letter-spacing: 0.1em;
         }
-        .bg-navy-900 {
-            background-color: #0f172a;
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 1px;
+            background-color: var(--gold);
         }
-        .text-gold {
-            color: #c5a059;
+        .section-title.left::after {
+            left: 0;
+            transform: none;
         }
-        .border-gold {
-            border-color: #c5a059;
+
+        /* プレミアムカード */
+        .luxury-card {
+            background: white;
+            border: 1px solid rgba(179, 142, 68, 0.1);
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
-        .hover-gold:hover {
-            color: #c5a059;
-            transition: 0.3s;
+        .luxury-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-8px);
+            box-shadow: 0 30px 50px -15px rgba(0, 0, 0, 0.05);
         }
+
+        /* ゴールドボタン */
         .btn-premium {
-            background: linear-gradient(135deg, #c5a059 0%, #a38241 100%);
+            background: linear-gradient(135deg, #b38e44 0%, #8e6d2a 100%);
             color: white;
-            transition: transform 0.2s, box-shadow 0.2s;
+            letter-spacing: 0.15em;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px -10px rgba(179, 142, 68, 0.4);
         }
         .btn-premium:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(197, 160, 89, 0.3);
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+            box-shadow: 0 12px 35px -10px rgba(179, 142, 68, 0.6);
         }
-        section {
-            padding: 100px 20px;
+
+        /* 写真フレーム */
+        .photo-wrap {
+            position: relative;
         }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+        .photo-wrap::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--gold);
+            z-index: 0;
         }
-        .step-number {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            opacity: 0.2;
-            line-height: 1;
+        
+        /* フォーム入力 */
+        input, select, textarea {
+            border: 1px solid #e5e7eb !important;
+            background-color: white !important;
+            transition: all 0.3s ease;
         }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--gold) !important;
+            outline: none !important;
+            box-shadow: 0 0 0 4px rgba(179, 142, 68, 0.05) !important;
+        }
+
+        /* ナビゲーションホバー */
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--gold);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .nav-link:hover {
+            color: var(--gold);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade { animation: fadeIn 1.2s ease-out forwards; }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- Header -->
-    <header class="fixed w-full z-50 bg-navy-900 text-white shadow-lg">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <span class="text-2xl font-bold tracking-widest serif text-gold">Genbridge AI</span>
+    <!-- Sticky Header -->
+    <header class="fixed w-full z-50 bg-white/95 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-8 h-24 flex justify-between items-center">
+            <div class="flex flex-col">
+                <span class="text-2xl font-bold tracking-[0.05em] serif text-[#0a1120]">Genbridge AI</span>
+                <span class="text-[10px] tracking-[0.4em] uppercase text-gold font-bold">Consulting</span>
             </div>
-            <nav class="hidden md:flex gap-8 text-sm font-medium">
-                <a href="#about" class="hover-gold uppercase tracking-wider">自己紹介</a>
-                <a href="#services" class="hover-gold uppercase tracking-wider">支援内容</a>
-                <a href="#results" class="hover-gold uppercase tracking-wider">実績・経歴</a>
-                <a href="#process" class="hover-gold uppercase tracking-wider">進め方</a>
-                <a href="#contact" class="btn-premium px-5 py-2 rounded-full text-xs font-bold">お問い合わせ</a>
+            <!-- Navigation Links -->
+            <nav class="hidden lg:flex items-center gap-10 text-[12px] font-bold tracking-[0.15em] text-[#0a1120] uppercase">
+                <a href="#about" class="nav-link">自己紹介</a>
+                <a href="#credentials" class="nav-link">実績・資格</a>
+                <a href="#services" class="nav-link">支援内容</a>
+                <a href="#process" class="nav-link">進め方</a>
+                <a href="#contact" class="btn-premium px-8 py-3 rounded text-white shadow-none ml-4">Contact</a>
             </nav>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="pt-48 pb-24 bg-navy-900 text-white relative overflow-hidden">
-        <div class="absolute right-0 top-0 w-1/3 h-full opacity-10 pointer-events-none">
-            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <path fill="#c5a059" d="M44.7,-76.4C58.8,-69.2,71.8,-59.1,79.6,-45.8C87.4,-32.5,90,-16.3,88.5,-0.9C87,14.5,81.4,29,73,42C64.6,55,53.4,66.5,40,73.8C26.6,81.1,13.3,84.2,-0.9,85.8C-15.1,87.4,-30.2,87.5,-44.1,81.2C-58,74.9,-70.7,62.2,-78.9,47.8C-87.1,33.4,-90.8,17.2,-89.9,1.5C-89,-14.2,-83.5,-29.4,-74.6,-42.6C-65.7,-55.8,-53.4,-67.1,-39.7,-74.6C-26,-82.1,-13,-85.8,1.5,-88.4C16,-91,30.6,-83.6,44.7,-76.4Z" transform="translate(100 100)" />
-            </svg>
-        </div>
-        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-            <div class="order-2 md:order-1">
-                <p class="text-gold font-bold mb-4 tracking-widest uppercase">Genbridge AI Consulting</p>
-                <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6 serif">
-                    AI活用を、構想で終わらせず、<br>
-                    <span class="text-gold">事業と業務に定着</span>する実務成果へ。
+    <section class="relative min-h-screen flex items-center pt-32 pb-20 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-8 grid lg:grid-cols-2 gap-20 items-center">
+            <div class="order-2 lg:order-1 animate-fade">
+                <div class="inline-block px-4 py-1.5 border border-gold/30 text-gold text-[10px] tracking-[0.3em] font-bold mb-8 uppercase">Enterprise AI Strategy</div>
+                <h1 class="text-4xl lg:text-6xl font-bold leading-[1.3] serif text-[#0a1120] mb-8">
+                    AI活用を、<br>構想で終わらせず、<br>
+                    <span class="text-gold">事業と業務に定着</span>する<br>実務成果へ。
                 </h1>
-                <p class="text-gray-400 text-lg mb-8 leading-relaxed">
-                    30年以上のエンタープライズIT経験を基盤に、ガバナンスと運用定着を見据えたAI導入を伴走支援します。
+                <p class="text-gray-500 text-lg leading-relaxed max-w-xl mb-12">
+                    30年以上にわたるエンタープライズITの知見を基盤に、導入後の運用定着とガバナンスを重視したAI導入をご支援いたします。
                 </p>
-                <div class="flex gap-4">
-                    <a href="#contact" class="btn-premium px-8 py-4 rounded-lg font-bold">無料相談を申し込む</a>
+                <div class="flex gap-8">
+                    <a href="#contact" class="btn-premium px-12 py-5 rounded font-bold text-sm">無料相談はこちら</a>
                 </div>
             </div>
-            <div class="order-1 md:order-2 flex justify-center">
-                <div class="relative">
-                    <div class="absolute inset-0 border-2 border-gold rounded-full translate-x-4 translate-y-4 -z-10"></div>
+            <div class="order-1 lg:order-2 flex justify-center lg:justify-end">
+                <div class="photo-wrap max-w-[460px]">
                     <img src="Gemini_Generated_Image_kc7s6fkc7s6fkc7s.png" 
-                         onerror="this.src='https://via.placeholder.com/400x500?text=Gentaro+Abe'"
                          alt="安部源太郎" 
-                         class="w-72 h-72 md:w-96 md:h-96 object-cover rounded-full border-4 border-navy-900 shadow-2xl">
+                         class="relative z-10 w-full shadow-2xl grayscale-[15%] hover:grayscale-0 transition-all duration-1000">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="bg-white">
-        <div class="max-w-4xl mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold mb-4 serif">ご挨拶・自己紹介</h2>
-                <div class="w-20 h-1 bg-gold mx-auto"></div>
+    <!-- Message / Philosophy -->
+    <section id="about" class="py-32 bg-[#0a1120] text-white">
+        <div class="max-w-4xl mx-auto px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-gold eng-serif text-lg tracking-[0.4em] mb-4 uppercase">Greetings</h2>
+                <h3 class="text-2xl font-bold serif section-title">ご挨拶・自己紹介</h3>
             </div>
-            <div class="space-y-6 text-gray-700 text-lg leading-relaxed">
-                <p>
-                    はじめまして、安部源太郎と申します。現在は外資系SIerに勤務しながら、屋号「Genbridge AI Consulting」として企業のAI活用に関するご相談をお受けしています。
-                </p>
-                <p>
-                    生成AIの普及により可能性が広がる一方で、実務への適用には多くの壁が存在します。私は大手・外資SIerでの長年のプロジェクト推進経験を活かし、「地に足のついた実装」をご提案します。
+            <div class="space-y-10 text-gray-400 text-lg leading-loose font-light">
+                <p>はじめまして、<span class="text-white font-bold">安部源太郎</span>と申します。</p>
+                <p>現在は外資系SIerに勤務しながら、屋号「Genbridge AI Consulting」として企業のAI活用に関する伴走支援を行っております。生成AIの普及に伴い、企業は「既存運用との整合」や「ガバナンス」といった複雑な課題に直面しています。</p>
+                <p>私は、大手・外資SIerでの長年の経験を通じて、システム導入と監査・統制の両面からプロジェクトを推進してきました。AIを単なるブームではなく、継続的に価値を生む「実務テーマ」として定着させるため、構想から運用まで一貫して支援いたします。</p>
+                <p class="text-gold font-bold italic border-l border-gold pl-6 mt-12 py-2">
+                    「現場で無理なく運用でき、統制が取れていること。それが私の支援の核心です。」
                 </p>
             </div>
         </div>
     </section>
 
-    <!-- Results Section -->
-    <section id="results" class="bg-gray-50 border-y border-gray-200">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold mb-16 serif">主な実績・対応領域</h2>
-            <div class="grid md:grid-cols-2 gap-8 text-left">
-                <div class="bg-white p-8 rounded-xl shadow-sm border-l-4 border-gold">
-                    <h4 class="font-bold text-xl mb-3">大手企業向けAIエージェント開発</h4>
-                    <p class="text-gray-600 text-sm">要件整理から業務適用の設計、導入初期の推進までを一貫して支援。</p>
+    <!-- Achievements / Years -->
+    <section id="credentials" class="py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-gold eng-serif text-lg tracking-[0.4em] mb-4 uppercase">Expertise</h2>
+                <h3 class="text-3xl font-bold serif section-title">実績・経歴サマリー</h3>
+            </div>
+            <div class="grid lg:grid-cols-3 gap-12">
+                <div class="luxury-card p-12 text-center rounded-lg">
+                    <div class="text-gold serif text-6xl font-bold mb-6">30</div>
+                    <p class="text-[10px] tracking-widest text-gray-400 mb-4 uppercase font-bold">Experience</p>
+                    <h4 class="font-bold text-xl mb-4 text-[#0a1120]">大手SIerにて30年</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed">大規模システム開発および導入のプロジェクトを多数牽引。エンタープライズITの本質を熟知しています。</p>
                 </div>
-                <div class="bg-white p-8 rounded-xl shadow-sm border-l-4 border-gold">
-                    <h4 class="font-bold text-xl mb-3">AIラボの立ち上げ・運営</h4>
-                    <p class="text-gray-600 text-sm">最新AI技術の検証、業務ユースケースの具体化、実装テーマ選定を推進。</p>
+                <div class="luxury-card p-12 text-center rounded-lg">
+                    <div class="text-gold serif text-6xl font-bold mb-6">4</div>
+                    <p class="text-[10px] tracking-widest text-gray-400 mb-4 uppercase font-bold">Consulting</p>
+                    <h4 class="font-bold text-xl mb-4 text-[#0a1120]">外資系SIerにて4年</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed">グローバル視点でのコンサルティング・業務改革推進。最先端のフレームワークを実務に落とし込みます。</p>
+                </div>
+                <div class="luxury-card p-12 text-center rounded-lg">
+                    <div class="text-gold serif text-6xl font-bold mb-6">2</div>
+                    <p class="text-[10px] tracking-widest text-gray-400 mb-4 uppercase font-bold">AI Strategy</p>
+                    <h4 class="font-bold text-xl mb-4 text-[#0a1120]">AIコンサルタント実績2年</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed">最先端のAI技術を活用した実案件に参画。構想策定からPoC、導入定着までの伴走実績を誇ります。</p>
+                </div>
+            </div>
+
+            <!-- Qualifications -->
+            <div class="mt-24 grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-gray-50 p-6 border-l-2 border-gold rounded flex flex-col justify-center">
+                    <p class="text-[10px] text-gold font-bold tracking-widest mb-1 uppercase">Audit</p>
+                    <p class="text-xs font-bold">高度情報処理資格 (システム監査)</p>
+                </div>
+                <div class="bg-gray-50 p-6 border-l-2 border-gold rounded flex flex-col justify-center">
+                    <p class="text-[10px] text-gold font-bold tracking-widest mb-1 uppercase">Generative AI</p>
+                    <p class="text-xs font-bold">生成AIパスポート</p>
+                </div>
+                <div class="bg-gray-50 p-6 border-l-2 border-gold rounded flex flex-col justify-center">
+                    <p class="text-[10px] text-gold font-bold tracking-widest mb-1 uppercase">Cloud</p>
+                    <p class="text-xs font-bold">AWS Certified AI Practitioner</p>
+                </div>
+                <div class="bg-gray-50 p-6 border-l-2 border-gold rounded flex flex-col justify-center">
+                    <p class="text-[10px] text-gold font-bold tracking-widest mb-1 uppercase">CRM</p>
+                    <p class="text-xs font-bold">Salesforce認定資格</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-32 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-gold eng-serif text-lg tracking-[0.4em] mb-4 uppercase">Support Scope</h2>
+                <h3 class="text-3xl font-bold serif section-title">支援内容</h3>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div class="luxury-card p-10 rounded-xl">
+                    <h4 class="font-bold text-xl mb-6 flex items-center gap-3 text-navy">
+                        <span class="w-2 h-2 bg-gold rounded-full"></span> 構想・論点整理
+                    </h4>
+                    <p class="text-sm text-gray-500 leading-loose">経営・事業・現場の観点を踏まえ、どのテーマから着手すべきか、解決すべき論点を明確にします。</p>
+                </div>
+                <div class="luxury-card p-10 rounded-xl">
+                    <h4 class="font-bold text-xl mb-6 flex items-center gap-3 text-navy">
+                        <span class="w-2 h-2 bg-gold rounded-full"></span> 適用領域の見極め
+                    </h4>
+                    <p class="text-sm text-gray-500 leading-loose">現行業務を可視化し、AIの効果が見込める領域、逆に慎重に扱うべき領域を特定します。</p>
+                </div>
+                <div class="luxury-card p-10 rounded-xl">
+                    <h4 class="font-bold text-xl mb-6 flex items-center gap-3 text-navy">
+                        <span class="w-2 h-2 bg-gold rounded-full"></span> PoC・検証支援
+                    </h4>
+                    <p class="text-sm text-gray-500 leading-loose">生成AIの有効性を小さく検証。期待値の調整や評価観点の整理を行い、導入判断を支えます。</p>
+                </div>
+                <div class="luxury-card p-10 rounded-xl">
+                    <h4 class="font-bold text-xl mb-6 flex items-center gap-3 text-navy">
+                        <span class="w-2 h-2 bg-gold rounded-full"></span> エージェント企画
+                    </h4>
+                    <p class="text-sm text-gray-500 leading-loose">業務要件、利用シーン、運用ルールまで含めた実務レベルのAIエージェント構想を具体化します。</p>
+                </div>
+                <div class="luxury-card p-10 rounded-xl">
+                    <h4 class="font-bold text-xl mb-6 flex items-center gap-3 text-navy">
+                        <span class="w-2 h-2 bg-gold rounded-full"></span> ガバナンス整理
+                    </h4>
+                    <p class="text-sm text-gray-500 leading-loose">情報管理、説明責任、社内統制など、導入後に問題が起きにくい運用の仕組みを整理します。</p>
+                </div>
+                <div class="luxury-card p-10 rounded-xl">
+                    <h4 class="font-bold text-xl mb-6 flex items-center gap-3 text-navy">
+                        <span class="w-2 h-2 bg-gold rounded-full"></span> 導入・定着伴走
+                    </h4>
+                    <p class="text-sm text-gray-500 leading-loose">導入して終わりにせず、現場での利用促進、改善テーマの洗い出しまで継続的に支援します。</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Process Section -->
-    <section id="process" class="bg-white">
-        <div class="max-w-5xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold serif mb-4">導入までの流れ</h2>
+    <section id="process" class="py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-gold eng-serif text-lg tracking-[0.4em] mb-4 uppercase">Workflow</h2>
+                <h3 class="text-3xl font-bold serif section-title">導入までの流れ</h3>
             </div>
-            <div class="space-y-12 relative">
-                <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-[1px] h-full bg-gray-200"></div>
-                <div class="relative flex flex-col md:flex-row items-center gap-8">
-                    <div class="md:w-1/2 md:text-right">
-                        <span class="step-number text-gold">01</span>
-                        <h4 class="text-xl font-bold mb-2">お問い合わせ</h4>
-                        <p class="text-gray-600 text-sm">検討中のテーマや現状のお困りごとをフォームよりご共有ください。</p>
-                    </div>
-                    <div class="hidden md:block w-4 h-4 bg-gold rounded-full z-10"></div>
-                    <div class="md:w-1/2"></div>
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- All steps now share the same luxury card style -->
+                <div class="relative p-10 border border-gray-100 rounded-xl bg-gray-50/50 luxury-card">
+                    <span class="text-gold serif text-4xl opacity-20 absolute top-4 right-6 italic">01</span>
+                    <h4 class="font-bold text-navy mb-4">お問い合わせ</h4>
+                    <p class="text-xs text-gray-400 leading-loose">テーマや対象業務の概要をフォームより共有ください。</p>
                 </div>
-                <div class="relative flex flex-col md:flex-row items-center gap-8">
-                    <div class="md:w-1/2"></div>
-                    <div class="hidden md:block w-4 h-4 bg-gold rounded-full z-10"></div>
-                    <div class="md:w-1/2 md:text-left">
-                        <span class="step-number text-gold">02</span>
-                        <h4 class="text-xl font-bold mb-2">初回ヒアリング</h4>
-                        <p class="text-gray-600 text-sm">目的、背景、制約条件を整理しながら、優先順位を確認します。</p>
-                    </div>
+                <div class="relative p-10 border border-gray-100 rounded-xl bg-gray-50/50 luxury-card">
+                    <span class="text-gold serif text-4xl opacity-20 absolute top-4 right-6 italic">02</span>
+                    <h4 class="font-bold text-navy mb-4">初回ヒアリング</h4>
+                    <p class="text-xs text-gray-400 leading-loose">背景、関係者、制約条件を整理し、優先順位を確認します。</p>
+                </div>
+                <div class="relative p-10 border border-gray-100 rounded-xl bg-gray-50/50 luxury-card">
+                    <span class="text-gold serif text-4xl opacity-20 absolute top-4 right-6 italic">03</span>
+                    <h4 class="font-bold text-navy mb-4">方針のご提案</h4>
+                    <p class="text-xs text-gray-400 leading-loose">短期的な論点と中長期ロードマップ、進め方をご提案します。</p>
+                </div>
+                <!-- Unified Step 04 -->
+                <div class="relative p-10 border border-gray-100 rounded-xl bg-gray-50/50 luxury-card">
+                    <span class="text-gold serif text-4xl opacity-20 absolute top-4 right-6 italic">04</span>
+                    <h4 class="font-bold text-navy mb-4">実行・伴走支援</h4>
+                    <p class="text-xs text-gray-400 leading-loose">構想整理から導入、定着化まで必要な範囲で伴走いたします。</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Contact Form Section -->
-    <section id="contact" class="bg-gray-50">
-        <div class="max-w-4xl mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold serif mb-4">お問い合わせ</h2>
-                <p class="text-gray-600">まずは「何を相談できるか確認したい」という段階でも問題ありません。</p>
+    <section id="contact" class="py-32 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-gold eng-serif text-lg tracking-[0.4em] mb-4 uppercase">Contact</h2>
+                <h3 class="text-3xl font-bold serif text-[#0a1120]">お問い合わせ</h3>
+                <p class="mt-6 text-gray-500 text-sm italic leading-relaxed">
+                    「何から手をつけるべきか」という初期検討の段階からでも、<br>どうぞお気軽にご相談ください。
+                </p>
             </div>
 
-            <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-gray-100">
-                <form id="ai-contact-form" class="space-y-6">
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-bold mb-2 text-gray-700">お名前 <span class="text-red-500">*</span></label>
-                            <input type="text" name="name" required placeholder="例：山田 太郎" 
-                                   class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition">
+            <div class="bg-white p-10 lg:p-16 rounded-[2rem] shadow-2xl border border-white">
+                <form id="ai-contact-form" class="space-y-10">
+                    <div class="grid md:grid-cols-2 gap-10">
+                        <div class="space-y-3">
+                            <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">お名前 <span class="text-gold ml-1">*</span></label>
+                            <input type="text" name="name" required placeholder="山田 太郎" class="w-full px-6 py-4 rounded-lg">
                         </div>
-                        <div>
-                            <label class="block text-sm font-bold mb-2 text-gray-700">メールアドレス <span class="text-red-500">*</span></label>
-                            <input type="email" name="email" required placeholder="example@company.com" 
-                                   class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition">
+                        <div class="space-y-3">
+                            <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">メールアドレス <span class="text-gold ml-1">*</span></label>
+                            <input type="email" name="email" required placeholder="email@company.com" class="w-full px-6 py-4 rounded-lg">
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block text-sm font-bold mb-2 text-gray-700">お問い合わせタイプ <span class="text-red-500">*</span></label>
-                        <select name="type" required 
-                                class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition bg-white">
+                    <div class="space-y-3">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">お問い合わせタイプ <span class="text-gold ml-1">*</span></label>
+                        <select name="type" required class="w-full px-6 py-4 rounded-lg bg-white">
                             <option value="" disabled selected>選択してください</option>
-                            <option value="生成AI導入の壁打ち・相談">生成AI導入の壁打ち・相談</option>
+                            <option value="生成AI導入に向けた「壁打ち」">生成AI導入に向けた「壁打ち」</option>
                             <option value="AIエージェントの企画・構想">AIエージェントの企画・構想</option>
-                            <option value="業務改善PoC（実証実験）の依頼">業務改善PoC（実証実験）の依頼</option>
-                            <option value="AI活用推進チームの伴走支援">AI活用推進チームの伴走支援</option>
+                            <option value="業務整理とAI適用の見極め">業務整理とAI適用の見極め</option>
+                            <option value="社内AI活用推進チームの支援">社内AI活用推進チームの支援</option>
                             <option value="その他">その他</option>
                         </select>
                     </div>
 
-                    <div>
-                        <label class="block text-sm font-bold mb-2 text-gray-700">依頼事項・メッセージ <span class="text-red-500">*</span></label>
-                        <textarea name="message" rows="5" required placeholder="ご相談内容の詳細をご記入ください" 
-                                  class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition"></textarea>
+                    <div class="space-y-3">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">依頼事項・メッセージ <span class="text-gold ml-1">*</span></label>
+                        <textarea name="message" rows="6" required placeholder="ご検討中のテーマやお困りごとをご記入ください" class="w-full px-6 py-4 rounded-lg"></textarea>
                     </div>
 
-                    <div id="form-status" class="hidden p-4 rounded-lg text-center font-bold"></div>
+                    <div id="form-status" class="hidden p-6 rounded-xl text-center font-bold text-sm"></div>
 
                     <div class="text-center">
-                        <button type="submit" class="btn-premium px-12 py-4 rounded-full font-bold text-lg w-full md:w-auto shadow-xl">
-                            この内容で送信する
+                        <button type="submit" id="submit-btn" class="btn-premium px-20 py-6 rounded font-bold tracking-[0.2em] w-full md:w-auto uppercase text-sm">
+                            Send Message
                         </button>
                     </div>
                 </form>
+            </div>
+
+            <div class="mt-20 text-center flex flex-col md:flex-row justify-center items-center gap-10 text-gray-400 text-[11px] tracking-widest uppercase">
+                <p>Email: <span class="text-navy font-bold ml-2 underline">genta787@genbridge.biz</span></p>
+                <p>Twitter: <span class="text-navy font-bold ml-2 underline">@genbridge</span></p>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-navy-900 text-white py-12 border-t border-white/10 text-center">
-        <p class="serif text-2xl mb-4 text-gold">Genbridge AI Consulting</p>
-        <p class="text-xs text-gray-500 tracking-widest uppercase">©2024 Genbridge AI Consulting / Gentaro Abe. All rights reserved.</p>
+    <footer class="py-24 bg-[#0a1120] text-white text-center border-t border-white/5">
+        <div class="flex flex-col items-center">
+            <span class="text-2xl font-bold tracking-[0.3em] serif text-gold mb-4 uppercase">Genbridge AI Consulting</span>
+            <div class="w-8 h-[1px] bg-gold mb-12"></div>
+            <p class="text-[10px] tracking-[0.4em] text-gray-500 uppercase">
+                ©2024 Genbridge AI Consulting / Gentaro Abe. All rights reserved.
+            </p>
+        </div>
     </footer>
 
     <script>
         const form = document.getElementById('ai-contact-form');
         const status = document.getElementById('form-status');
+        const submitBtn = document.getElementById('submit-btn');
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const button = form.querySelector('button');
-            button.disabled = true;
-            button.innerText = "送信中...";
+            
+            // ------------------------------------------------------------
+            // 最新のGASデプロイURLをここに貼り付けてください
+            // ------------------------------------------------------------
+            const GAS_URL = 'https://script.google.com/macros/s/AKfycbzCZpOC4vLjADD7yenQSFdPSYdwnHkRzQK885kMWe19Pg1Ra-q_8_YAbkLQrH3ZW-B8/exec'; 
 
-            // TODO: ここにGASの新しいウェブアプリURLを貼り付けてください
-            const GAS_URL = 'https://script.google.com/macros/s/AKfycby9c3rZwg9UjuAGStTNu0jKrfi_ClNBQwkhl8c_sybRwlM3IGQlOiwb7xDeaQv78UtG/exec'; 
+            if (GAS_URL === 'https://script.google.com/macros/s/AKfycbzCZpOC4vLjADD7yenQSFdPSYdwnHkRzQK885kMWe19Pg1Ra-q_8_YAbkLQrH3ZW-B8/exec') {
+                showStatus("エラー：GASのURLが設定されていません。コードを更新してください。", false);
+                return;
+            }
 
-            // FormDataをURLSearchParamsに変換（GASのe.parameterで確実に受け取るため）
+            submitBtn.disabled = true;
+            submitBtn.innerText = "SENDING...";
+            showStatus("メッセージを送信しています...", true, "bg-gray-100 text-gray-600");
+
             const formData = new FormData(form);
             const params = new URLSearchParams();
             formData.forEach((value, key) => params.append(key, value));
 
             try {
-                // mode: 'no-cors' は結果を読めないため、まずは標準的な送信を試みます
-                // GAS側でCORSエラーが出る場合は 'no-cors' に戻しますが、その場合も送信自体は成功します
                 await fetch(GAS_URL, {
                     method: 'POST',
                     body: params,
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     mode: 'no-cors'
                 });
 
-                status.classList.remove('hidden', 'bg-red-100', 'text-red-700');
-                status.classList.add('bg-green-100', 'text-green-700', 'block');
-                status.innerText = "お問い合わせを送信しました。間もなく確認メールが届かない場合は、迷惑メールフォルダをご確認ください。";
-                
-                button.innerText = "送信完了";
+                showStatus("お問い合わせありがとうございます。正常に送信されました。内容を確認し折り返しご連絡いたします。", true);
+                submitBtn.innerText = "送信完了";
                 form.reset();
             } catch (error) {
-                console.error('Submission error:', error);
-                status.classList.remove('hidden', 'bg-green-100', 'text-green-700');
-                status.classList.add('bg-red-100', 'text-red-700', 'block');
-                status.innerText = "通信エラーが発生しました。直接メール(genta787@genbridge.biz)にてお問い合わせください。";
-                button.disabled = false;
-                button.innerText = "再試行する";
+                console.error('Error:', error);
+                showStatus("通信エラーが発生しました。恐れ入りますが直接メールにてご連絡ください。", false);
+                submitBtn.disabled = false;
+                submitBtn.innerText = "RETRY";
             }
         });
+
+        function showStatus(msg, isSuccess, customClass = "") {
+            status.className = `p-6 rounded-xl text-center font-bold block ${customClass || (isSuccess ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700")}`;
+            status.innerText = msg;
+        }
     </script>
 </body>
 </html>
